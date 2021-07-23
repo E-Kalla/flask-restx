@@ -762,9 +762,10 @@ class Polymorph(Nested):
                 "Unable to determine a candidate for: " + value.__class__.__name__
             )
         else:
-            return marshal(
-                value, candidates[0].resolved, mask=self.mask, ordered=ordered
-            )
+            solved = candidates[0].resolved
+            # Clear cache
+            del candidates[0].resolved
+            return marshal(value, solved, mask=self.mask, ordered=ordered)
 
     def resolve_ancestor(self, models):
         """
